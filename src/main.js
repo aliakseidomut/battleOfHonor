@@ -2,6 +2,7 @@ import { Game } from "phaser";
 import { Preloader } from "./preloader";
 import { MenuScene } from "./scenes/MenuScene";
 import { ClassSelectScene } from "./scenes/ClassSelectScene";
+import { GameScene } from "./scenes/GameScene";
 
 const config = {
   type: Phaser.AUTO,
@@ -25,7 +26,7 @@ const config = {
       gravity: { y: 0 },
     },
   },
-  scene: [Preloader, MenuScene, ClassSelectScene],
+  scene: [Preloader, MenuScene, ClassSelectScene, GameScene],
 };
 
 new Game(config);
