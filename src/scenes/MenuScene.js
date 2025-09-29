@@ -31,8 +31,7 @@ export class MenuScene extends Scene {
       .setOrigin(0.5, 0.5);
 
     const pressText = this.add
-      .text(centerX, centerY + 40, "Click to get started", {
-        fontFamily: "Arial",
+      .text(centerX, centerY + 40, "Нажмите на экран, чтобы начать", {
         fontSize: "32px",
         color: "#ffffff",
       })
@@ -49,7 +48,7 @@ export class MenuScene extends Scene {
     });
 
     this.input.once("pointerdown", () => {
-      this.scene.start("CharacterSelectScene");
+      this.scene.start("ClassSelectScene");
     });
   }
 }
