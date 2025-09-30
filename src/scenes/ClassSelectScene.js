@@ -39,7 +39,7 @@ export class ClassSelectScene extends Scene {
     const cardWidth = 400;
     const cardHeight = 550;
 
-    characterClasses.forEach((e, i) => {
+    Object.values(characterClasses).forEach((e, i) => {
       const x = startX + i * cardSpacing;
 
       const card = this.add

@@ -1,38 +1,33 @@
-const weapons = [
-  {
+export const weapons = {
+  sword: {
     name: "sword",
     displayName: "Меч",
     damage: 3,
     type: "slashing",
   },
-  {
-    name: "club",
+  club: {
     displayName: "Дубина",
     damage: 3,
     type: "blunt",
   },
-  {
-    name: "dagger",
+  dagger: {
     displayName: "Кинжал",
     damage: 2,
     type: "piercing",
   },
-  {
-    name: "axe",
+  axe: {
     displayName: "Топор",
     damage: 4,
     type: "slashing",
   },
-  {
-    name: "spear",
+  spear: {
     displayName: "Копьё",
     damage: 3,
     type: "piercing",
   },
-  {
-    name: "legendarySword",
+  legendarySword: {
     displayName: "Легендарный Меч",
     damage: 10,
     type: "slashing",
   },
-];
+};

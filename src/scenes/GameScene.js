@@ -1,5 +1,7 @@
 import { Scene } from "phaser";
-import { Character } from "../gameObjects/CharacterConf";
+import { Character } from "../gameObjects/Character";
+import { Monster } from "../gameObjects/Monster";
+import { monsters } from "../constants/Monsters";
 
 export class GameScene extends Scene {
   constructor() {
@@ -48,13 +50,33 @@ export class GameScene extends Scene {
         weapon: this.chosenClass.startWeapon,
       }
     );
-
     this.player.maxHp = this.player.hp;
 
-    this.createHud();
+    const randomMonster =
+      Object.values(monsters)[
+        Phaser.Math.Between(0, Object.values(monsters).length - 1)
+      ];
+
+    this.monster = new Monster(
+      this,
+      screenWidth * 0.75,
+      screenHeight - (3 * screenHeight) / 16,
+      {
+        strength: randomMonster.strength,
+        stamina: randomMonster.stamina,
+        agility: randomMonster.agility,
+        hp: randomMonster.hp + randomMonster.stamina,
+        weaponDamage: randomMonster.weaponDamage,
+        displayName: randomMonster.displayName,
+      }
+    );
+    this.monster.maxHp = this.monster.hp;
+
+    this.createPlayerHud();
+    this.createMonsterHud();
   }
 
-  createHud() {
+  createPlayerHud() {
     const padding = 20;
     const barWidth = 200;
     const barHeight = 30;
@@ -85,43 +107,32 @@ export class GameScene extends Scene {
         padding + barWidth / 2,
         padding + barHeight / 2,
         `${this.player.hp} / ${this.player.maxHp}`,
-        {
-          fontSize: "18px",
-          color: "#ffffff",
-        }
+        { fontSize: "18px", color: "#ffffff" }
       )
       .setOrigin(0.5);
 
-    const statsX = padding;
+    let statsX = padding;
     let statsY = padding + barHeight + 10;
 
-    this.statsTexts = [];
-
-    this.statsTexts.push(
-      this.add.text(statsX, statsY, `Сила: ${this.player.strength}`, {
-        fontSize: "18px",
-        color: "#ffffff",
-      })
-    );
-
+    this.add.text(statsX, statsY, `Сила: ${this.player.strength}`, {
+      fontSize: "18px",
+      color: "#ffffff",
+    });
     statsY += 25;
-    this.statsTexts.push(
-      this.add.text(statsX, statsY, `Ловкость: ${this.player.agility}`, {
-        fontSize: "18px",
-        color: "#ffffff",
-      })
-    );
 
+    this.add.text(statsX, statsY, `Ловкость: ${this.player.agility}`, {
+      fontSize: "18px",
+      color: "#ffffff",
+    });
     statsY += 25;
-    this.statsTexts.push(
-      this.add.text(statsX, statsY, `Выносливость: ${this.player.stamina}`, {
-        fontSize: "18px",
-        color: "#ffffff",
-      })
-    );
 
+    this.add.text(statsX, statsY, `Выносливость: ${this.player.stamina}`, {
+      fontSize: "18px",
+      color: "#ffffff",
+    });
     statsY += 25;
-    this.weaponText = this.add.text(
+
+    this.add.text(
       statsX,
       statsY,
       `Оружие: ${this.player.weapon.displayName || this.player.weapon}`,
@@ -129,20 +140,67 @@ export class GameScene extends Scene {
     );
   }
 
-  update() {
-    this.updateHud();
-  }
-
-  updateHud() {
+  createMonsterHud() {
+    const padding = 20;
     const barWidth = 200;
-    const hpPercent = Phaser.Math.Clamp(
-      this.player.hp / this.player.maxHp,
-      0,
-      1
-    );
+    const barHeight = 30;
+    const screenWidth = this.scale.width;
 
-    this.hpBarFill.width = barWidth * hpPercent;
+    this.monsterHpBarBg = this.add
+      .rectangle(
+        screenWidth - padding - barWidth / 2,
+        padding + barHeight / 2,
+        barWidth,
+        barHeight,
+        0x000000
+      )
+      .setStrokeStyle(2, 0xffffff)
+      .setOrigin(0.5);
 
-    this.hpText.setText(`${this.player.hp} / ${this.player.maxHp}`);
+    this.monsterHpBarFill = this.add
+      .rectangle(
+        screenWidth - padding - barWidth / 2,
+        padding + barHeight / 2,
+        barWidth,
+        barHeight,
+        0xff4444
+      )
+      .setOrigin(0.5);
+
+    this.monsterHpText = this.add
+      .text(
+        screenWidth - padding - barWidth / 2,
+        padding + barHeight / 2,
+        `${this.monster.hp} / ${this.monster.maxHp}`,
+        { fontSize: "18px", color: "#ffffff" }
+      )
+      .setOrigin(0.5);
+
+    let statsX = screenWidth - padding - barWidth;
+    let statsY = padding + barHeight + 10;
+
+    this.add.text(statsX, statsY, this.monster.displayName, {
+      fontSize: "20px",
+      color: "#ffcc00",
+    });
+    statsY += 30;
+
+    this.add.text(statsX, statsY, `Сила: ${this.monster.strength}`, {
+      fontSize: "18px",
+      color: "#ffffff",
+    });
+    statsY += 25;
+
+    this.add.text(statsX, statsY, `Ловкость: ${this.monster.agility}`, {
+      fontSize: "18px",
+      color: "#ffffff",
+    });
+    statsY += 25;
+
+    this.add.text(statsX, statsY, `Выносливость: ${this.monster.stamina}`, {
+      fontSize: "18px",
+      color: "#ffffff",
+    });
+    statsY += 25;
   }
 }
