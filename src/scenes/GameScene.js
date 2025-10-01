@@ -74,6 +74,16 @@ export class GameScene extends Scene {
 
     this.createPlayerHud();
     this.createMonsterHud();
+
+    this.turnNum = 1;
+
+    if (this.player.agility >= this.monster.agility) {
+      this.currentTurn = "player";
+    } else {
+      this.currentTurn = "monster";
+    }
+
+    this.time.delayedCall(2000, () => this.nextTurn());
   }
 
   createPlayerHud() {
@@ -202,5 +212,67 @@ export class GameScene extends Scene {
       color: "#ffffff",
     });
     statsY += 25;
+  }
+
+  playerAttack(player, monster) {
+    const hitChance = Phaser.Math.Between(1, player.agility + monster.agility);
+
+    if (hitChance > monster.agility) {
+      monster.hp -= player.strength + player.weapon.damage;
+      console.log("Попал");
+    }
+
+    if (monster.hp < 0) {
+      monster.hp = 0;
+    }
+
+    this.currentTurn = "monster";
+    this.turnNum++;
+    this.updateHpBars();
+
+    if (monster.hp > 0) {
+      this.time.delayedCall(2000, () => this.nextTurn());
+    }
+  }
+
+  monsterAttack(monster, player) {
+    const hitChance = Phaser.Math.Between(1, player.agility + monster.agility);
+
+    if (hitChance > player.agility) {
+      player.hp -= monster.strength + monster.weaponDamage;
+      console.log("Попал");
+    }
+
+    if (player.hp < 0) {
+      player.hp = 0;
+    }
+
+    this.currentTurn = "player";
+    this.turnNum++;
+    this.updateHpBars();
+
+    if (player.hp > 0) {
+      this.time.delayedCall(2000, () => this.nextTurn());
+    }
+  }
+
+  nextTurn() {
+    if (this.currentTurn === "player") {
+      this.playerAttack(this.player, this.monster);
+    } else {
+      this.monsterAttack(this.monster, this.player);
+    }
+
+    console.log(this.player.hp, this.monster.hp);
+  }
+
+  updateHpBars() {
+    const playerHpPercent = this.player.hp / this.player.maxHp;
+    this.hpBarFill.width = 200 * playerHpPercent;
+    this.hpText.setText(`${this.player.hp} / ${this.player.maxHp}`);
+
+    const monsterHpPercent = this.monster.hp / this.monster.maxHp;
+    this.monsterHpBarFill.width = 200 * monsterHpPercent;
+    this.monsterHpText.setText(`${this.monster.hp} / ${this.monster.maxHp}`);
   }
 }

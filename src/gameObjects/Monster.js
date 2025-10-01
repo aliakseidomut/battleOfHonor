@@ -18,8 +18,4 @@ export class Monster {
     this.weaponDamage = weaponDamage;
     this.displayName = displayName;
   }
-
-  attack() {}
-
-  takeDamage() {}
 }

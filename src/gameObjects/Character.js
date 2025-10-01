@@ -12,8 +12,4 @@ export class Character {
     this.hp = hp;
     this.weapon = weapon;
   }
-
-  attack() {}
-
-  takeDamage() {}
 }
