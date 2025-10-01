@@ -219,7 +219,6 @@ export class GameScene extends Scene {
 
     if (hitChance > monster.agility) {
       monster.hp -= player.strength + player.weapon.damage;
-      console.log("Попал");
     }
 
     if (monster.hp < 0) {
@@ -240,11 +239,11 @@ export class GameScene extends Scene {
 
     if (hitChance > player.agility) {
       player.hp -= monster.strength + monster.weaponDamage;
-      console.log("Попал");
     }
 
-    if (player.hp < 0) {
+    if (player.hp <= 0) {
       player.hp = 0;
+      this.scene.start("GameOverScene");
     }
 
     this.currentTurn = "player";
@@ -262,8 +261,6 @@ export class GameScene extends Scene {
     } else {
       this.monsterAttack(this.monster, this.player);
     }
-
-    console.log(this.player.hp, this.monster.hp);
   }
 
   updateHpBars() {
