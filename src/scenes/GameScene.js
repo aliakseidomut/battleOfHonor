@@ -8,8 +8,9 @@ export class GameScene extends Scene {
     super("GameScene");
   }
 
-  init(data) {
-    this.chosenClass = data.chosenClass;
+  init({ characterConf, fightNum }) {
+    this.characterConf = characterConf;
+    this.fightNum = fightNum;
   }
 
   create() {
@@ -34,21 +35,11 @@ export class GameScene extends Scene {
       )
       .setOrigin(0.5);
 
-    const strength = Phaser.Math.Between(1, 3);
-    const stamina = Phaser.Math.Between(1, 3);
-    const agility = Phaser.Math.Between(1, 3);
-
     this.player = new Character(
       this,
       screenWidth * 0.25,
       screenHeight - (3 * screenHeight) / 16,
-      {
-        strength,
-        stamina,
-        agility,
-        hp: this.chosenClass.hp + stamina,
-        weapon: this.chosenClass.startWeapon,
-      }
+      this.characterConf
     );
     this.player.maxHp = this.player.hp;
 
@@ -68,6 +59,7 @@ export class GameScene extends Scene {
         hp: randomMonster.hp + randomMonster.stamina,
         weaponDamage: randomMonster.weaponDamage,
         displayName: randomMonster.displayName,
+        reward: randomMonster.reward,
       }
     );
     this.monster.maxHp = this.monster.hp;
@@ -223,6 +215,12 @@ export class GameScene extends Scene {
 
     if (monster.hp < 0) {
       monster.hp = 0;
+      this.scene.start("WeaponSelectScene", {
+        currentWeapon: this.player.weapon,
+        rewardWeapon: this.monster.reward,
+        characterConf: this.characterConf,
+        fightNum: this.fightNum,
+      });
     }
 
     this.currentTurn = "monster";

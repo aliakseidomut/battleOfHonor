@@ -65,7 +65,7 @@ export class ClassSelectScene extends Scene {
         .setOrigin(0, 0.5);
 
       this.add
-        .text(textX, startY - 100, `Оружие: ${e.startWeapon.displayName}`, {
+        .text(textX, startY - 100, `Оружие: ${e.weapon.displayName}`, {
           fontSize: "25px",
           color: "#ffffff",
         })
@@ -107,7 +107,20 @@ export class ClassSelectScene extends Scene {
     startBtn.on("pointerdown", () => {
       if (!this.selectedClass) return;
 
-      this.scene.start("GameScene", { chosenClass: this.selectedClass });
+      const strength = Phaser.Math.Between(1, 3);
+      const stamina = Phaser.Math.Between(1, 3);
+      const agility = Phaser.Math.Between(1, 3);
+
+      this.scene.start("GameScene", {
+        characterConf: {
+          strength,
+          stamina,
+          agility,
+          hp: this.selectedClass.hp + stamina,
+          weapon: this.selectedClass.weapon,
+        },
+        fightNum: 1,
+      });
     });
   }
 }

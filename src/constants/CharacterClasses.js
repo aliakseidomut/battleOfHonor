@@ -4,7 +4,8 @@ export const characterClasses = {
   robber: {
     displayName: "Разбойник",
     hp: 4,
-    startWeapon: weapons.dagger,
+    weapon: weapons.dagger,
+    lvl: 0,
     bonuses: {
       first: {
         description:
@@ -25,7 +26,8 @@ export const characterClasses = {
   warrior: {
     displayName: "Воин",
     hp: 5,
-    startWeapon: weapons.sword,
+    weapon: weapons.sword,
+    lvl: 0,
     bonuses: {
       first: {
         description:
@@ -46,7 +48,8 @@ export const characterClasses = {
   barbarian: {
     displayName: "Варвар",
     hp: 6,
-    startWeapon: weapons.club,
+    weapon: weapons.club,
+    lvl: 0,
     bonuses: {
       first: {
         description:

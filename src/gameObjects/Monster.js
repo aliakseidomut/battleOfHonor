@@ -3,7 +3,7 @@ export class Monster {
     scene,
     x,
     y,
-    { strength, stamina, agility, hp, weaponDamage, displayName }
+    { strength, stamina, agility, hp, weaponDamage, displayName, reward }
   ) {
     this.scene = scene;
 
@@ -17,5 +17,6 @@ export class Monster {
     this.hp = hp;
     this.weaponDamage = weaponDamage;
     this.displayName = displayName;
+    this.reward = reward;
   }
 }

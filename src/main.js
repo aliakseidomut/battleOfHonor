@@ -4,6 +4,7 @@ import { MenuScene } from "./scenes/MenuScene";
 import { ClassSelectScene } from "./scenes/ClassSelectScene";
 import { GameScene } from "./scenes/GameScene";
 import { GameOverScene } from "./scenes/GameOverScene";
+import { WeaponSelectScene } from "./scenes/WeaponSelectScene";
 
 const config = {
   type: Phaser.AUTO,
@@ -27,7 +28,14 @@ const config = {
       gravity: { y: 0 },
     },
   },
-  scene: [Preloader, MenuScene, ClassSelectScene, GameScene, GameOverScene],
+  scene: [
+    Preloader,
+    MenuScene,
+    ClassSelectScene,
+    GameScene,
+    GameOverScene,
+    WeaponSelectScene,
+  ],
 };
 
 new Game(config);
